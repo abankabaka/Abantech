@@ -1,0 +1,35 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "hero-tech",
+      "description": "Futuristic digital grid",
+      "imageUrl": "https://picsum.photos/seed/aban-hero/1200/800",
+      "imageHint": "cyber technology"
+    },
+    {
+      "id": "devs-preview",
+      "description": "Digital Evidence Verification System",
+      "imageUrl": "https://picsum.photos/seed/devs/800/600",
+      "imageHint": "security system"
+    },
+    {
+      "id": "school-system",
+      "description": "School Management Interface",
+      "imageUrl": "https://picsum.photos/seed/school/800/600",
+      "imageHint": "dashboard interface"
+    },
+    {
+      "id": "hospital-system",
+      "description": "Hospital Management System",
+      "imageUrl": "https://picsum.photos/seed/hospital/800/600",
+      "imageHint": "medical technology"
+    },
+    {
+      "id": "pos-system",
+      "description": "Point of Sale Interface",
+      "imageUrl": "https://picsum.photos/seed/pos/800/600",
+      "imageHint": "retail software"
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+
+"use client";
+
+import Link from 'next/link';
+import { useTheme } from '@/components/theme-provider';
+import { Button } from '@/components/ui/button';
+import { 
+  Monitor, 
+  Wind, 
+  Terminal, 
+  ShieldCheck, 
+  ChevronRight,
+  Menu,
+  X
+} from 'lucide-react';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
+
+export function Navbar() {
+  const { theme, setTheme } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const themeIcons = {
+    cyber: <Monitor className="w-4 h-4" />,
+    arctic: <Wind className="w-4 h-4" />,
+    matrix: <Terminal className="w-4 h-4" />,
+  };
+
+  const navLinks = [
+    { name: 'Ecosystem', href: '#ecosystem' },
+    { name: 'Services', href: '#services' },
+    { name: 'Vault', href: '#vault' },
+    { name: 'Dashboard', href: '/dashboard' },
+  ];
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-headline font-bold text-xl group-hover:scale-110 transition-transform">
+                AT
+              </div>
+              <div className="flex flex-col">
+                <span className="font-headline font-bold text-lg leading-tight tracking-tight">AbanTechnologies</span>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium italic">Nothing to Something</span>
+              </div>
+            </Link>
+          </div>
+
+          <div className="hidden md:flex items-center space-x-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="text-sm font-medium hover:text-primary transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="hidden md:flex items-center gap-4">
+            <div className="flex p-1 bg-secondary rounded-full border border-border">
+              {(['cyber', 'arctic', 'matrix'] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTheme(t)}
+                  className={cn(
+                    "p-2 rounded-full transition-all",
+                    theme === t ? "bg-primary text-primary-foreground shadow-lg" : "text-muted-foreground hover:text-foreground"
+                  )}
+                  title={`Switch to ${t} mode`}
+                >
+                  {themeIcons[t]}
+                </button>
+              ))}
+            </div>
+            <Button size="sm" className="font-headline group">
+              Start Project
+              <ChevronRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+
+          <div className="md:hidden flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              {mobileMenuOpen ? <X /> : <Menu />}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden glass-morphism border-b border-border">
+          <div className="px-4 py-6 space-y-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-lg font-headline font-semibold"
+              >
+                {link.name}
+              </Link>
+            ))}
+            <div className="flex justify-between items-center py-4 border-t border-border mt-4">
+              <span className="text-sm font-medium">Environment</span>
+              <div className="flex gap-2">
+                {(['cyber', 'arctic', 'matrix'] as const).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setTheme(t)}
+                    className={cn(
+                      "p-3 rounded-xl border border-border",
+                      theme === t ? "bg-primary text-primary-foreground" : "bg-secondary"
+                    )}
+                  >
+                    {themeIcons[t]}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+}
