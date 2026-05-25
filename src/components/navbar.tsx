@@ -8,17 +8,18 @@ import {
   Monitor, 
   Wind, 
   Terminal, 
-  ShieldCheck, 
   ChevronRight,
   Menu,
   X
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const themeIcons = {
     cyber: <Monitor className="w-4 h-4" />,
@@ -27,9 +28,9 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { name: 'Ecosystem', href: '#ecosystem' },
-    { name: 'Services', href: '#services' },
-    { name: 'Vault', href: '#vault' },
+    { name: 'Ecosystem', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
     { name: 'Dashboard', href: '/dashboard' },
   ];
 
@@ -54,7 +55,10 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium hover:text-primary transition-colors"
+                className={cn(
+                  "text-sm font-medium transition-colors",
+                  pathname === link.href ? "text-primary" : "hover:text-primary text-muted-foreground"
+                )}
               >
                 {link.name}
               </Link>
@@ -77,9 +81,11 @@ export function Navbar() {
                 </button>
               ))}
             </div>
-            <Button size="sm" className="font-headline group">
-              Start Project
-              <ChevronRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <Button size="sm" className="font-headline group" asChild>
+              <Link href="/contact">
+                Start Project
+                <ChevronRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
           </div>
 
@@ -100,11 +106,21 @@ export function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-lg font-headline font-semibold"
+                className={cn(
+                  "block text-lg font-headline font-semibold",
+                  pathname === link.href ? "text-primary" : ""
+                )}
               >
                 {link.name}
               </Link>
             ))}
+            <Link 
+              href="/contact" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-lg font-headline font-semibold text-primary"
+            >
+              Start Project
+            </Link>
             <div className="flex justify-between items-center py-4 border-t border-border mt-4">
               <span className="text-sm font-medium">Environment</span>
               <div className="flex gap-2">
