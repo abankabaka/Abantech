@@ -17,19 +17,49 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setSubmitted(true);
-    toast({
-      title: "Transmission Received",
-      description: "Our architects have received your message and will respond shortly.",
-    });
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      subject: formData.get("subject"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        setSubmitted(true);
+        toast({
+          title: "Transmission Received",
+          description: "Our architects have received your message and will respond shortly.",
+        });
+      } else {
+        toast({
+          title: "Transmission Failed",
+          description: result.error || "Failed to send message.",
+          variant: "destructive",
+        });
+      }
+    } catch (err) {
+      toast({
+        title: "Transmission Error",
+        description: "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -112,20 +142,20 @@ export default function ContactPage() {
                       <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
-                          <Input required placeholder="Enter name" className="bg-secondary/50 border-white/5 rounded-xl h-12" />
+                          <Input name="name" required placeholder="Enter name" className="bg-secondary/50 border-white/5 rounded-xl h-12" />
                         </div>
                         <div className="space-y-2">
                           <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
-                          <Input required type="email" placeholder="email@example.com" className="bg-secondary/50 border-white/5 rounded-xl h-12" />
+                          <Input name="email" required type="email" placeholder="email@example.com" className="bg-secondary/50 border-white/5 rounded-xl h-12" />
                         </div>
                       </div>
                       <div className="space-y-2">
                         <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Subject</label>
-                        <Input required placeholder="How can we help?" className="bg-secondary/50 border-white/5 rounded-xl h-12" />
+                        <Input name="subject" required placeholder="How can we help?" className="bg-secondary/50 border-white/5 rounded-xl h-12" />
                       </div>
                       <div className="space-y-2">
                         <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Message</label>
-                        <Textarea required placeholder="Describe your business needs..." className="bg-secondary/50 border-white/5 rounded-xl min-h-[150px]" />
+                        <Textarea name="message" required placeholder="Describe your business needs..." className="bg-secondary/50 border-white/5 rounded-xl min-h-[150px]" />
                       </div>
                       <Button type="submit" size="lg" disabled={isSubmitting} className="w-full rounded-xl font-headline h-14 text-lg group">
                         {isSubmitting ? "Encrypting..." : "Secure Transmission"}

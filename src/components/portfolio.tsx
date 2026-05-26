@@ -22,7 +22,7 @@ export function Portfolio() {
       title: "DEVS", 
       subtitle: "Digital Evidence Verification System", 
       tag: "Security", 
-      img: "https://picsum.photos/seed/devs/800/600",
+      img: "/images/devs.png",
       description: "A secure blockchain-based system for verifying digital forensic evidence integrity."
     },
     { 
@@ -30,7 +30,7 @@ export function Portfolio() {
       title: "Hospital Management", 
       subtitle: "Enterprise Health Ecosystem", 
       tag: "Systems", 
-      img: "https://picsum.photos/seed/hospital/800/600",
+      img: "/images/hospital.png",
       description: "Unified patient records and surgical scheduling for multi-branch clinics."
     },
     { 
@@ -38,7 +38,7 @@ export function Portfolio() {
       title: "School System", 
       subtitle: "Academic Operations Engine", 
       tag: "Education", 
-      img: "https://picsum.photos/seed/school/800/600",
+      img: "/images/school.png",
       description: "Automated billing, grading, and parent-teacher communication portal."
     },
     { 
@@ -46,7 +46,7 @@ export function Portfolio() {
       title: "POS System", 
       subtitle: "Retail Intelligence Hub", 
       tag: "Commerce", 
-      img: "https://picsum.photos/seed/pos/800/600",
+      img: "/images/pos.png",
       description: "Inventory tracking and real-time sales analytics for multi-location retail."
     },
   ];

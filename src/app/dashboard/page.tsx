@@ -1,169 +1,191 @@
-
 "use client";
 
+import { useState } from "react";
 import { Navbar } from "@/components/navbar";
-import { SidebarProvider, SidebarInset, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
-import { 
-  LayoutDashboard, 
-  FolderLock, 
-  Headset, 
-  CreditCard, 
-  Settings,
-  Bell,
-  Search,
-  Plus,
-  ArrowUpRight,
-  ShieldCheck,
-  Zap,
-  Clock
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { Lock, Mail, Users, Calendar } from "lucide-react";
+import { format } from "date-fns";
+
+type Subscriber = { id: string; email: string; createdAt: string };
+type Message = { id: string; name: string; email: string; subject: string; message: string; createdAt: string };
 
 export default function DashboardPage() {
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  
+  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/admin/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setMessages(data.messages);
+        setSubscribers(data.subscribers);
+        setIsAuthenticated(true);
+      } else {
+        setError("Invalid password. Access denied.");
+      }
+    } catch (err) {
+      setError("Failed to connect to the server.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Lock className="w-8 h-8 text-primary" />
+            </div>
+            <h1 className="text-3xl font-headline font-bold">Admin Portal</h1>
+            <p className="text-muted-foreground mt-2">Enter your master password to access encrypted data.</p>
+          </div>
+          
+          <Card className="glass-morphism border-white/5">
+            <CardContent className="p-6">
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Input 
+                    type="password" 
+                    placeholder="Enter password..." 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="bg-secondary/50 border-white/5 h-12 text-center text-lg tracking-widest"
+                    autoFocus
+                  />
+                </div>
+                {error && <p className="text-red-500 text-sm text-center font-medium">{error}</p>}
+                <Button type="submit" className="w-full h-12 font-headline" disabled={isLoading || !password}>
+                  {isLoading ? "Decrypting..." : "Unlock Vault"}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-20">
-        <SidebarProvider>
-          <div className="flex w-full">
-            <Sidebar className="border-r border-border mt-20">
-              <SidebarHeader className="p-4">
-                <div className="flex items-center gap-3 p-2 rounded-xl bg-primary/10 border border-primary/20">
-                  <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold">JD</div>
-                  <div className="flex flex-col">
-                    <span className="text-sm font-bold font-headline">Enterprise Client</span>
-                    <span className="text-[10px] uppercase text-muted-foreground">ID: 884-293</span>
-                  </div>
+      <main className="pt-32 pb-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <Badge variant="outline" className="border-primary/50 text-primary uppercase tracking-widest font-bold mb-2">Authenticated</Badge>
+              <h1 className="text-4xl font-headline font-bold">Command Center</h1>
+            </div>
+            <div className="flex gap-4">
+              <Card className="bg-secondary/50 border-white/5 px-6 py-3 flex items-center gap-4">
+                <Mail className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Messages</p>
+                  <p className="text-xl font-bold">{messages.length}</p>
                 </div>
-              </SidebarHeader>
-              <SidebarContent className="p-2">
-                <SidebarMenu>
-                  {[
-                    { name: 'Nexus Core', icon: LayoutDashboard, active: true },
-                    { name: 'Secure Vault', icon: FolderLock },
-                    { name: 'Support Grid', icon: Headset },
-                    { name: 'Commerce Hub', icon: CreditCard },
-                    { name: 'Node Config', icon: Settings },
-                  ].map((item) => (
-                    <SidebarMenuItem key={item.name}>
-                      <SidebarMenuButton isActive={item.active} className="rounded-xl h-11">
-                        <item.icon />
-                        <span className="font-headline font-medium">{item.name}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarContent>
-            </Sidebar>
-
-            <SidebarInset className="p-6 space-y-8 bg-secondary/10">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div className="space-y-1">
-                  <h1 className="text-3xl font-headline font-bold">Project Nexus</h1>
-                  <p className="text-muted-foreground">Monitor infrastructure development and system health.</p>
+              </Card>
+              <Card className="bg-secondary/50 border-white/5 px-6 py-3 flex items-center gap-4">
+                <Users className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold">Subscribers</p>
+                  <p className="text-xl font-bold">{subscribers.length}</p>
                 </div>
-                <div className="flex items-center gap-4">
-                  <Button variant="outline" size="icon" className="rounded-full">
-                    <Bell className="w-4 h-4" />
-                  </Button>
-                  <Button className="rounded-xl font-headline group">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Deploy New Node
-                  </Button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { label: "Active Nodes", value: "4", sub: "+1 this month", icon: Zap, color: "text-yellow-500" },
-                  { label: "Security Level", value: "MAX", sub: "Protocols Active", icon: ShieldCheck, color: "text-green-500" },
-                  { label: "Engineering Hours", value: "1,240", sub: "Current Project Cycle", icon: Clock, color: "text-blue-500" },
-                ].map((stat, i) => (
-                  <Card key={i} className="glass-morphism border-white/5">
-                    <CardContent className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div className={cn("p-3 rounded-xl bg-secondary", stat.color)}>
-                          <stat.icon className="w-6 h-6" />
-                        </div>
-                        <Badge variant="secondary" className="text-[10px]">+12.5%</Badge>
-                      </div>
-                      <div className="space-y-1">
-                        <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{stat.label}</div>
-                        <div className="text-3xl font-headline font-bold">{stat.value}</div>
-                        <div className="text-[10px] text-muted-foreground">{stat.sub}</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-
-              <div className="grid lg:grid-cols-2 gap-6">
-                <Card className="glass-morphism border-white/5">
-                  <CardHeader>
-                    <CardTitle className="font-headline">Ongoing Engineering</CardTitle>
-                    <CardDescription>Development status of your primary ecosystem.</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {[
-                      { name: "Hospital Ecosystem v2.0", progress: 85, status: "Testing Phase" },
-                      { name: "Cyber-Security Mesh Implementation", progress: 40, status: "Integration Phase" },
-                      { name: "Global Payment Gateway", progress: 95, status: "Final Review" },
-                    ].map((proj, i) => (
-                      <div key={i} className="space-y-3">
-                        <div className="flex justify-between items-center">
-                          <div className="font-bold text-sm">{proj.name}</div>
-                          <div className="text-xs text-primary font-bold">{proj.progress}%</div>
-                        </div>
-                        <Progress value={proj.progress} className="h-1.5" />
-                        <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
-                          Status: {proj.status}
-                        </div>
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-
-                <Card className="glass-morphism border-white/5">
-                  <CardHeader className="flex flex-row items-center justify-between">
-                    <div>
-                      <CardTitle className="font-headline">Recent Documents</CardTitle>
-                      <CardDescription>Secure file exchange history.</CardDescription>
-                    </div>
-                    <Button variant="ghost" size="sm">View All</Button>
-                  </CardHeader>
-                  <CardContent className="p-0">
-                    {[
-                      { name: "Infrastructure_Roadmap.pdf", size: "2.4 MB", date: "2h ago" },
-                      { name: "System_Vulnerability_Audit.xlsx", size: "1.8 MB", date: "5h ago" },
-                      { name: "Brand_Visual_Identity_v3.zip", size: "45.0 MB", date: "Yesterday" },
-                      { name: "SLA_Agreement_2024.pdf", size: "1.2 MB", date: "Jan 12" },
-                    ].map((doc, i) => (
-                      <div key={i} className="flex items-center justify-between p-4 hover:bg-secondary/50 border-b border-white/5 last:border-0 transition-colors">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
-                            <FolderLock className="w-5 h-5 text-muted-foreground" />
-                          </div>
-                          <div>
-                            <div className="text-sm font-bold">{doc.name}</div>
-                            <div className="text-[10px] text-muted-foreground uppercase">{doc.size} • {doc.date}</div>
-                          </div>
-                        </div>
-                        <Button variant="ghost" size="icon">
-                          <ArrowUpRight className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-              </div>
-            </SidebarInset>
+              </Card>
+            </div>
           </div>
-        </SidebarProvider>
-      </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Messages Table */}
+            <Card className="glass-morphism border-white/5 flex flex-col h-[600px]">
+              <div className="p-6 border-b border-white/5 shrink-0">
+                <h3 className="text-xl font-headline font-bold flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-primary" /> Contact Messages
+                </h3>
+              </div>
+              <CardContent className="p-0 overflow-y-auto flex-1">
+                {messages.length === 0 ? (
+                  <div className="p-8 text-center text-muted-foreground">No messages received yet.</div>
+                ) : (
+                  <div className="divide-y divide-white/5">
+                    {messages.map((msg) => (
+                      <div key={msg.id} className="p-6 hover:bg-white/[0.02] transition-colors space-y-3">
+                        <div className="flex justify-between items-start gap-4">
+                          <div>
+                            <p className="font-bold">{msg.name}</p>
+                            <a href={`mailto:${msg.email}`} className="text-sm text-primary hover:underline">{msg.email}</a>
+                          </div>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground shrink-0">
+                            <Calendar className="w-3 h-3" />
+                            {msg.createdAt ? format(new Date(msg.createdAt), "MMM d, h:mm a") : "Unknown"}
+                          </div>
+                        </div>
+                        <div className="bg-secondary/30 p-4 rounded-lg border border-white/5">
+                          <p className="text-xs font-bold uppercase text-muted-foreground mb-1">{msg.subject}</p>
+                          <p className="text-sm text-gray-300 whitespace-pre-wrap">{msg.message}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Subscribers Table */}
+            <Card className="glass-morphism border-white/5 flex flex-col h-[600px]">
+              <div className="p-6 border-b border-white/5 shrink-0">
+                <h3 className="text-xl font-headline font-bold flex items-center gap-2">
+                  <Users className="w-5 h-5 text-primary" /> Newsletter Subscribers
+                </h3>
+              </div>
+              <CardContent className="p-0 overflow-y-auto flex-1">
+                {subscribers.length === 0 ? (
+                  <div className="p-8 text-center text-muted-foreground">No subscribers yet.</div>
+                ) : (
+                  <div className="divide-y divide-white/5">
+                    {subscribers.map((sub) => (
+                      <div key={sub.id} className="p-6 flex justify-between items-center hover:bg-white/[0.02] transition-colors">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                            <Mail className="w-4 h-4 text-primary" />
+                          </div>
+                          <a href={`mailto:${sub.email}`} className="font-medium hover:text-primary transition-colors">{sub.email}</a>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Calendar className="w-3 h-3" />
+                          {sub.createdAt ? format(new Date(sub.createdAt), "MMM d, yyyy") : "Unknown"}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }

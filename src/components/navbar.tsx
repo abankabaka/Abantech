@@ -31,7 +31,6 @@ export function Navbar() {
     { name: 'Ecosystem', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
-    { name: 'Dashboard', href: '/dashboard' },
   ];
 
   return (
@@ -40,13 +39,9 @@ export function Navbar() {
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-headline font-bold text-xl group-hover:scale-110 transition-transform">
-                AT
-              </div>
-              <div className="flex flex-col">
-                <span className="font-headline font-bold text-lg leading-tight tracking-tight">AbanTechnologies</span>
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium italic">Nothing to Something</span>
-              </div>
+              <span className="bg-white inline-flex items-center justify-center rounded-lg p-0 group-hover:scale-105 transition-transform shadow-sm">
+                <img src="/images/logo.png" alt="Aban Technologies Logo" className="h-12 w-auto" />
+              </span>
             </Link>
           </div>
 

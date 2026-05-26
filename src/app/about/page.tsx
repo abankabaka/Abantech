@@ -9,9 +9,9 @@ import { Users, Target, Eye, History } from "lucide-react";
 
 export default function AboutPage() {
   const team = [
-    { name: "Isaac Aban", role: "Chief Architect", bio: "Visionary lead in systems engineering.", img: "https://picsum.photos/seed/team1/400/400" },
-    { name: "Sarah N.", role: "Lead Designer", bio: "Expert in iconic visual identities.", img: "https://picsum.photos/seed/team2/400/400" },
-    { name: "David O.", role: "Security Lead", bio: "Specialist in zero-trust architecture.", img: "https://picsum.photos/seed/team3/400/400" },
+    { name: "Aban A", role: "Chief Architect", bio: "Visionary lead in systems engineering.", img: "/images/Aban%20A%20Chief%20Architect.jpeg" },
+    { name: "Paul W", role: "Lead Designer", bio: "Expert in iconic visual identities.", img: "/images/Paul%20W%20Lead%20Designer.jpeg" },
+    { name: "Trevor N", role: "Security Lead", bio: "Specialist in zero-trust architecture.", img: "/images/Trevor%20N%20Security%20Lead.jpeg" },
   ];
 
   return (
