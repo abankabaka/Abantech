@@ -65,48 +65,56 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-32 pb-24">
+      <main className="pt-24 sm:pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-16">
+          <div className="text-center space-y-4 mb-10 sm:mb-16">
             <Badge variant="outline" className="border-primary/50 text-primary uppercase tracking-widest font-bold">Contact Hub</Badge>
-            <h1 className="text-5xl md:text-6xl font-headline font-bold">Initialize Connection</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold">Initialize Connection</h1>
+            <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               Ready to take your project from Nothing to Something? Secure your technical consultation today.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
             <div className="lg:col-span-1 space-y-8">
               <Card className="glass-morphism border-white/5">
                 <CardContent className="p-8 space-y-8">
-                  <div className="flex gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                      <Mail className="text-primary w-6 h-6" />
+                  <a 
+                    href="mailto:abantechnologies1@gmail.com" 
+                    className="flex gap-4 group/contact hover:bg-primary/5 p-2 rounded-xl transition-all duration-300 -m-2"
+                  >
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 group-hover/contact:bg-primary group-hover/contact:text-white transition-colors duration-300">
+                      <Mail className="text-primary group-hover/contact:text-primary-foreground w-6 h-6 transition-colors" />
                     </div>
                     <div>
-                      <h3 className="font-headline font-bold">Email Securely</h3>
-                      <p className="text-sm text-muted-foreground">abantechnologies1@gmail.com</p>
+                      <h3 className="font-headline font-bold group-hover/contact:text-primary transition-colors">Email Securely</h3>
+                      <p className="text-sm text-muted-foreground break-all">abantechnologies1@gmail.com</p>
                     </div>
-                  </div>
-                  <div className="flex gap-4">
+                  </a>
+                  <div className="flex gap-4 p-2 -m-2">
                     <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
                       <Phone className="text-primary w-6 h-6" />
                     </div>
                     <div>
                       <h3 className="font-headline font-bold">Voice Uplink</h3>
-                      <p className="text-sm text-muted-foreground">+256 701 949 311</p>
-                      <p className="text-sm text-muted-foreground">+256 763 180 375</p>
+                      <a href="tel:+256701949311" className="text-sm text-muted-foreground hover:text-primary transition-colors block mt-1">+256 701 949 311</a>
+                      <a href="tel:+256763180375" className="text-sm text-muted-foreground hover:text-primary transition-colors block mt-0.5">+256 763 180 375</a>
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                      <MapPin className="text-primary w-6 h-6" />
+                  <a 
+                    href="https://maps.google.com/?q=Kampala,+Uganda" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex gap-4 group/contact hover:bg-primary/5 p-2 rounded-xl transition-all duration-300 -m-2"
+                  >
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 group-hover/contact:bg-primary group-hover/contact:text-white transition-colors duration-300">
+                      <MapPin className="text-primary group-hover/contact:text-primary-foreground w-6 h-6 transition-colors" />
                     </div>
                     <div>
-                      <h3 className="font-headline font-bold">Physical Node</h3>
+                      <h3 className="font-headline font-bold group-hover/contact:text-primary transition-colors">Physical Node</h3>
                       <p className="text-sm text-muted-foreground">Kampala, Uganda</p>
                     </div>
-                  </div>
+                  </a>
                 </CardContent>
               </Card>
 

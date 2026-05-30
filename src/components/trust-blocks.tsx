@@ -20,22 +20,22 @@ export function TrustBlocks() {
   return (
     <section id="ecosystem" className="py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {stats.map((stat, i) => (
-            <div key={i} className="glass-morphism p-8 rounded-3xl border-white/5 group hover:border-primary/50 transition-all">
+            <div key={i} className="glass-morphism p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/5 group hover:border-primary/50 active:border-primary/60 transition-all duration-300 cursor-default">
               <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <stat.icon className="text-primary w-6 h-6" />
               </div>
-              <div className="text-4xl font-headline font-bold mb-2">{stat.value}</div>
-              <div className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{stat.label}</div>
+              <div className="text-3xl sm:text-4xl font-headline font-bold mb-1 sm:mb-2 text-foreground">{stat.value}</div>
+              <div className="text-xs sm:text-sm font-medium text-muted-foreground uppercase tracking-widest leading-snug">{stat.label}</div>
             </div>
           ))}
         </div>
 
-        <div className="mt-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="mt-16 sm:mt-24 grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           <div className="space-y-8">
-            <h2 className="text-4xl font-headline font-bold">
-              Engineering Trust <br /> 
+            <h2 className="text-3xl sm:text-4xl font-headline font-bold">
+              Engineering Trust <br className="hidden sm:block" />
               <span className="text-primary">At Every Layer</span>
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -48,7 +48,7 @@ export function TrustBlocks() {
                 { title: "Rapid Scale Protocols", desc: "Engineered to grow from startup to enterprise instantly.", icon: Rocket },
                 { title: "Unified Service Mesh", desc: "No disconnected vendors. One seamless ecosystem.", icon: Users },
               ].map((item, i) => (
-                <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-secondary/50 transition-colors">
+                <div key={i} className="flex gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl hover:bg-secondary/50 active:bg-secondary/70 transition-colors cursor-default">
                   <div className="shrink-0 w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                     <item.icon className="text-primary w-5 h-5" />
                   </div>
