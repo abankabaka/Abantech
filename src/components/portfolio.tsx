@@ -252,12 +252,16 @@ export function Portfolio() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center max-w-3xl mx-auto mb-20"
         >
-          <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Our Vault</span>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6">Featured Deployments</h2>
+          <div className="text-primary font-headline font-bold uppercase tracking-widest text-sm mb-4 flex items-center justify-center gap-2">
+            <span className="w-12 h-px bg-gradient-to-r from-transparent to-primary/80"></span>
+            <span className="animate-pulse">Our Vault</span>
+            <span className="w-12 h-px bg-gradient-to-l from-transparent to-primary/80"></span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold mb-6">Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary bg-[length:200%_auto] animate-gradient">Deployments</span></h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             Explore a selection of our most robust systems, applications, and digital platforms engineered for scale and security.
           </p>
@@ -267,28 +271,31 @@ export function Portfolio() {
           {projects.map((project, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group"
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: index * 0.1, type: "spring", bounce: 0.3 }}
+              className="group perspective-[1000px]"
             >
               <div 
                 onClick={() => setSelectedProject(project)}
-                className="cursor-pointer relative rounded-3xl overflow-hidden glass-morphism border border-white/10 hover:border-primary/50 transition-all duration-500 h-full flex flex-col bg-secondary/20"
+                className="cursor-pointer relative rounded-[2rem] overflow-hidden glass-morphism border border-white/10 hover:border-primary/50 transition-all duration-700 h-full flex flex-col bg-secondary/20 hover:-translate-y-2 hover:shadow-[0_20px_50px_-15px_rgba(var(--primary),0.4)]"
               >
+                {/* Glow behind the card */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0" />
+                
                 {/* Image Section (Mockup Style) */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-black/50 p-6 flex items-end justify-center">
-                  <div className={`absolute inset-0 bg-gradient-to-b ${project.color} opacity-50 group-hover:opacity-100 transition-opacity duration-500`}></div>
+                <div className="relative aspect-[16/10] overflow-hidden bg-black/50 p-6 flex items-end justify-center z-10">
+                  <div className={`absolute inset-0 bg-gradient-to-b ${project.color} opacity-50 group-hover:opacity-100 transition-opacity duration-700`}></div>
                   
                   {/* Laptop Mockup Frame */}
-                  <div className="relative w-[90%] h-[90%] bg-background rounded-t-xl border-x-4 border-t-4 border-white/10 shadow-2xl overflow-hidden transform group-hover:scale-105 group-hover:-translate-y-2 transition-transform duration-700 ease-out z-10">
+                  <div className="relative w-[90%] h-[90%] bg-background rounded-t-xl border-x-4 border-t-4 border-white/10 shadow-2xl overflow-hidden transform group-hover:-translate-y-4 transition-transform duration-700 ease-out z-10 group-hover:shadow-[0_0_40px_rgba(var(--primary),0.5)] border-b-0">
                     <img 
                       src={project.image} 
                       alt={project.title}
-                      className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity"
+                      className="w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 scale-110 group-hover:scale-100 transition-all duration-700 ease-out"
                     />
-                    <div className="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500"></div>
+                    <div className="absolute inset-0 bg-primary/20 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-700"></div>
                   </div>
                   
                   {/* Floating Badges */}

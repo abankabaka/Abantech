@@ -80,17 +80,17 @@ export function Services() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center space-y-4 mb-20"
         >
           <div className="text-primary font-headline font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2">
-            <span className="w-8 h-px bg-primary/50"></span>
-            Our Capabilities
-            <span className="w-8 h-px bg-primary/50"></span>
+            <span className="w-12 h-px bg-gradient-to-r from-transparent to-primary/80"></span>
+            <span className="animate-pulse">Our Capabilities</span>
+            <span className="w-12 h-px bg-gradient-to-l from-transparent to-primary/80"></span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold">Unifying Premium Technologies</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold">Unifying Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary bg-[length:200%_auto] animate-gradient">Technologies</span></h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
             AbanTechnologies eliminates the friction of disconnected vendors by providing a complete, elite digital engineering ecosystem.
           </p>
         </motion.div>
@@ -99,26 +99,27 @@ export function Services() {
           {services.map((service, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="group"
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.1, type: "spring", bounce: 0.3 }}
+              className="group perspective-[1000px]"
             >
-              <div className="h-full p-5 sm:p-8 rounded-3xl glass-morphism border border-white/5 hover:border-primary/40 active:border-primary/60 bg-background/50 hover:bg-secondary/40 active:bg-secondary/60 transition-all duration-500 relative overflow-hidden flex gap-4 sm:gap-6 cursor-pointer">
+              <div className="h-full p-6 sm:p-8 rounded-[2rem] glass-morphism border border-white/10 hover:border-primary/50 bg-background/40 hover:bg-secondary/40 transition-all duration-500 relative overflow-hidden flex gap-4 sm:gap-6 cursor-pointer hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(var(--primary),0.3)]">
                 
                 {/* Hover Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 
                 <div className="relative z-10 flex-shrink-0">
-                  <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 group-hover:shadow-[0_0_20px_rgba(var(--primary),0.2)] transition-all duration-500 group-hover:scale-110 group-hover:-rotate-3">
+                  <div className="w-16 h-16 bg-secondary/80 rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 group-hover:bg-primary/10 shadow-lg group-hover:shadow-[0_0_30px_rgba(var(--primary),0.4)] transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6">
                     <service.icon className="text-muted-foreground group-hover:text-primary w-8 h-8 transition-colors duration-500" />
                   </div>
                 </div>
 
                 <div className="relative z-10 space-y-3 flex-1">
-                  <h3 className="text-xl font-headline font-bold text-foreground group-hover:text-foreground transition-colors">{service.name}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <h3 className="text-xl font-headline font-bold text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-primary transition-all duration-300">{service.name}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed group-hover:text-muted-foreground/90 transition-colors">
                     {service.desc}
                   </p>
                 </div>

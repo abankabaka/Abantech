@@ -66,12 +66,16 @@ export function Testimonials() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Client Success</span>
-          <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6">What Industry Leaders Say</h2>
+          <div className="text-primary font-headline font-bold uppercase tracking-widest text-sm mb-4 flex items-center justify-center gap-2">
+            <span className="w-12 h-px bg-gradient-to-r from-transparent to-primary/80"></span>
+            <span className="animate-pulse">Client Success</span>
+            <span className="w-12 h-px bg-gradient-to-l from-transparent to-primary/80"></span>
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold mb-6">What <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-primary bg-[length:200%_auto] animate-gradient">Industry Leaders</span> Say</h2>
         </motion.div>
 
         <Carousel
@@ -86,30 +90,32 @@ export function Testimonials() {
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index} className="pl-4 md:pl-6 basis-full sm:basis-1/2 lg:basis-1/3">
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="h-full"
+                  transition={{ duration: 0.6, delay: index * 0.1, type: "spring", bounce: 0.3 }}
+                  className="h-full perspective-[1000px] group"
                 >
-                  <Card className="h-full glass-morphism border-white/5 hover:border-primary/20 transition-all duration-300 relative overflow-hidden group">
-                    <Quote className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 text-primary/10 group-hover:text-primary/20 transition-colors" />
-                    <CardContent className="p-5 sm:p-8 flex flex-col h-full">
+                  <Card className="h-full glass-morphism border-white/10 hover:border-primary/50 bg-background/50 hover:bg-secondary/30 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(var(--primary),0.3)] transition-all duration-700 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                    <Quote className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 text-primary/10 group-hover:text-primary/30 group-hover:scale-110 group-hover:-rotate-12 transition-all duration-500" />
+                    
+                    <CardContent className="p-5 sm:p-8 flex flex-col h-full relative z-10">
                       <div className="flex gap-1 mb-6">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                          <Star key={i} className="w-5 h-5 fill-primary text-primary drop-shadow-[0_0_5px_rgba(var(--primary),0.5)]" />
                         ))}
                       </div>
-                      <p className="text-muted-foreground text-sm sm:text-lg italic leading-relaxed mb-6 sm:mb-8 flex-1">
+                      <p className="text-muted-foreground text-sm sm:text-lg italic leading-relaxed mb-6 sm:mb-8 flex-1 group-hover:text-foreground/90 transition-colors">
                         "{testimonial.content}"
                       </p>
                       <div className="flex items-center gap-4 mt-auto">
-                        <div className="w-12 h-12 rounded-full bg-secondary border border-white/10 flex items-center justify-center font-bold text-lg text-foreground">
+                        <div className="w-12 h-12 rounded-full bg-secondary border border-white/10 flex items-center justify-center font-bold text-lg text-foreground group-hover:border-primary/50 group-hover:bg-primary/20 group-hover:shadow-[0_0_15px_rgba(var(--primary),0.3)] transition-all duration-300">
                           {testimonial.name.charAt(0)}
                         </div>
                         <div>
-                          <h4 className="font-bold font-headline text-foreground">{testimonial.name}</h4>
-                          <p className="text-sm text-primary">{testimonial.role}</p>
+                          <h4 className="font-bold font-headline text-foreground group-hover:text-primary transition-colors">{testimonial.name}</h4>
+                          <p className="text-sm text-primary/80">{testimonial.role}</p>
                         </div>
                       </div>
                     </CardContent>
