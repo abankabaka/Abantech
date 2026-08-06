@@ -10,11 +10,29 @@ export default function NewsletterForm() {
     e.preventDefault();
     setStatus('loading');
     
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-      setEmail('');
-    }, 1000);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "32745b4f-38fe-428f-91ac-82f34dd3be2b",
+          subject: "New Newsletter Subscriber",
+          email: email,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setStatus('success');
+        setEmail('');
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
   };
 
   return (

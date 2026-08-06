@@ -1,10 +1,45 @@
 'use client';
 
+import { useState } from 'react';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import { TextReveal, FadeUp } from '@/components/text-reveal';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "32745b4f-38fe-428f-91ac-82f34dd3be2b",
+          subject: `New Contact from ${formData.name}: ${formData.subject}`,
+          from_name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      setStatus('error');
+    }
+  };
+
   return (
     <main className="min-h-screen bg-background relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
@@ -63,13 +98,16 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <form className="flex flex-col gap-8">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8">
               <div className="relative group">
                 <input 
                   type="text" 
                   required 
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-primary transition-colors peer"
                   placeholder=" "
+                  disabled={status === 'loading'}
                 />
                 <label className="absolute left-0 top-4 text-muted-foreground transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-primary peer-valid:-top-3 peer-valid:text-xs font-code tracking-widest uppercase">
                   Full Name
@@ -80,8 +118,11 @@ export default function ContactPage() {
                 <input 
                   type="email" 
                   required 
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-primary transition-colors peer"
                   placeholder=" "
+                  disabled={status === 'loading'}
                 />
                 <label className="absolute left-0 top-4 text-muted-foreground transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-primary peer-valid:-top-3 peer-valid:text-xs font-code tracking-widest uppercase">
                   Email Address
@@ -92,8 +133,11 @@ export default function ContactPage() {
                 <input 
                   type="text" 
                   required 
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   className="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-primary transition-colors peer"
                   placeholder=" "
+                  disabled={status === 'loading'}
                 />
                 <label className="absolute left-0 top-4 text-muted-foreground transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-primary peer-valid:-top-3 peer-valid:text-xs font-code tracking-widest uppercase">
                   Subject
@@ -104,8 +148,11 @@ export default function ContactPage() {
                 <textarea 
                   required 
                   rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full bg-transparent border-b border-white/20 py-4 text-lg focus:outline-none focus:border-primary transition-colors peer resize-none"
                   placeholder=" "
+                  disabled={status === 'loading'}
                 />
                 <label className="absolute left-0 top-4 text-muted-foreground transition-all peer-focus:-top-3 peer-focus:text-xs peer-focus:text-primary peer-valid:-top-3 peer-valid:text-xs font-code tracking-widest uppercase">
                   Message Details
@@ -113,15 +160,19 @@ export default function ContactPage() {
               </div>
 
               <button 
-                type="button" 
-                className="mt-8 bg-primary text-black py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white transition-colors"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert('Form submitted via API route (mock).');
-                }}
+                type="submit" 
+                disabled={status === 'loading' || status === 'success'}
+                className="mt-8 bg-primary text-black py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Secure Transmission
+                {status === 'loading' ? 'Transmitting...' : status === 'success' ? 'Transmission Sent' : 'Secure Transmission'}
               </button>
+              
+              {status === 'success' && (
+                <p className="text-primary font-code text-sm text-center">Your message has been securely transmitted.</p>
+              )}
+              {status === 'error' && (
+                <p className="text-red-400 font-code text-sm text-center">Transmission failed. Please try again.</p>
+              )}
             </form>
           </FadeUp>
         </div>
