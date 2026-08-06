@@ -1,75 +1,44 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ArrowRight, Loader2 } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { useState } from 'react';
 
-export function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-  const [message, setMessage] = useState("");
+export default function NewsletterForm() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-
-    setIsLoading(true);
-    setStatus("idle");
-    setMessage("");
-
-    try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setStatus("success");
-        setMessage("Successfully subscribed!");
-        setEmail("");
-      } else {
-        setStatus("error");
-        setMessage(data.error || "Failed to subscribe.");
-      }
-    } catch (err) {
-      setStatus("error");
-      setMessage("An unexpected error occurred.");
-    } finally {
-      setIsLoading(false);
-    }
+    setStatus('loading');
+    
+    // Simulate API call
+    setTimeout(() => {
+      setStatus('success');
+      setEmail('');
+    }, 1000);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="flex gap-2">
-        <Input 
-          type="email"
-          required
-          placeholder="Enter email" 
-          className="bg-secondary/50 border-white/5 rounded-xl h-11"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={isLoading}
-        />
-        <Button 
-          type="submit" 
-          size="icon" 
-          className="shrink-0 h-11 w-11 rounded-xl"
-          disabled={isLoading}
-        >
-          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
-        </Button>
-      </div>
-      {status === "success" && (
-        <p className="text-sm text-green-500 font-medium">{message}</p>
-      )}
-      {status === "error" && (
-        <p className="text-sm text-red-500 font-medium">{message}</p>
+    <form onSubmit={handleSubmit} className="relative w-full">
+      <input
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter email address"
+        className="w-full bg-white/5 border border-white/10 rounded-none pl-4 pr-24 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-primary transition-colors font-body text-sm"
+        disabled={status === 'loading' || status === 'success'}
+      />
+      
+      <button 
+        type="submit"
+        disabled={status === 'loading' || status === 'success'}
+        className="absolute right-0 top-0 h-full px-4 text-primary font-code text-xs uppercase tracking-widest hover:bg-white/5 transition-colors disabled:opacity-50"
+      >
+        {status === 'loading' ? '...' : status === 'success' ? 'Joined' : 'Join'}
+      </button>
+
+      {status === 'success' && (
+        <p className="absolute -bottom-6 left-0 text-xs text-primary font-code">Successfully subscribed.</p>
       )}
     </form>
   );

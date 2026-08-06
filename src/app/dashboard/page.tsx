@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";

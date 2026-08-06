@@ -1,19 +1,21 @@
-import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
-import { Portfolio } from '@/components/portfolio';
-
-export const metadata = {
-  title: 'Portfolio | AbanTechnologies',
-  description: 'Explore our elite portfolio of enterprise systems, intelligent applications, and digital engineering projects.',
-};
+import Navbar from '@/components/navbar';
+import Footer from '@/components/footer';
+import HorizontalScroll from '@/components/horizontal-scroll';
 
 export default function PortfolioPage() {
   return (
-    <main className="min-h-screen bg-background flex flex-col pt-28">
+    <main className="min-h-screen bg-background">
       <Navbar />
-      <div className="flex-1">
-        <Portfolio />
+      
+      {/* 
+        For the portfolio page, we reuse the stunning horizontal scroll 
+        component since it's already built for displaying projects in an 
+        immersive way. The component handles its own layout and pinning.
+      */}
+      <div className="pt-24">
+        <HorizontalScroll />
       </div>
+      
       <Footer />
     </main>
   );

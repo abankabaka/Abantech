@@ -1,27 +1,25 @@
-import { Navbar } from '@/components/navbar';
-import { Hero } from '@/components/hero';
-import { WhyChooseUs } from '@/components/why-choose-us';
-import { Services } from '@/components/services';
-import { AnimatedStats } from '@/components/animated-stats';
-import { Footer } from '@/components/footer';
-import { LoadingScreen } from '@/components/loading-screen';
+import LoadingScreen from '@/components/loading-screen';
+import Navbar from '@/components/navbar';
+import Hero from '@/components/hero';
+import Marquee from '@/components/marquee';
+import Services from '@/components/services';
+import AnimatedStats from '@/components/animated-stats';
+import HorizontalScroll from '@/components/horizontal-scroll';
+import Testimonials from '@/components/testimonials';
+import Footer from '@/components/footer';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background relative selection:bg-primary/30">
+    <main>
       <LoadingScreen />
-      
-      {/* Decorative Global Background Element */}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-background to-background"></div>
-      
-      <div className="relative z-10 flex flex-col">
-        <Navbar />
-        <Hero />
-        <WhyChooseUs />
-        <Services />
-        <AnimatedStats />
-        <Footer />
-      </div>
+      <Navbar />
+      <Hero />
+      <Marquee />
+      <Services />
+      <AnimatedStats />
+      <HorizontalScroll />
+      <Testimonials />
+      <Footer />
     </main>
   );
 }

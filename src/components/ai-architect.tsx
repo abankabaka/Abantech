@@ -205,48 +205,6 @@ export function AIArchitect() {
           {/* Online indicator */}
           <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-blue-500 rounded-full border-2 border-background z-20 animate-pulse" />
         </button>
-
-        {/* WhatsApp Button */}
-        <div className="relative" ref={whatsappRef}>
-          {/* Contact Picker */}
-          {isWhatsAppOpen && (
-            <div className="absolute bottom-16 right-0 w-72 space-y-2 animate-in slide-in-from-bottom-3 duration-200">
-              {whatsappContacts.map((contact) => (
-                <a
-                  key={contact.phone}
-                  href={`https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsWhatsAppOpen(false)}
-                  className="flex items-center gap-4 p-4 rounded-2xl glass-morphism border border-white/10 hover:border-[#25D366]/40 hover:shadow-[0_0_15px_rgba(37,211,102,0.15)] transition-all duration-200 group"
-                >
-                  <div className="w-11 h-11 rounded-full bg-[#25D366]/20 border border-[#25D366]/30 flex items-center justify-center shrink-0 group-hover:bg-[#25D366]/30 transition-colors">
-                    <WhatsAppIcon className="w-5 h-5 fill-[#25D366]" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-foreground text-sm truncate">{contact.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{contact.description}</p>
-                    <div className="flex items-center gap-1.5 mt-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] shrink-0" />
-                      <span className="text-[10px] text-[#25D366] font-medium">{contact.status}</span>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          )}
-
-          {/* WhatsApp FAB */}
-          <button
-            onClick={() => setIsWhatsAppOpen(!isWhatsAppOpen)}
-            className="w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-[0_0_15px_rgba(37,211,102,0.4)] hover:shadow-[0_0_25px_rgba(37,211,102,0.6)] hover:scale-105 transition-all duration-300 relative"
-            title="Chat on WhatsApp"
-            aria-label="Open WhatsApp"
-          >
-            {!isWhatsAppOpen && <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-35 animate-ping" />}
-            <WhatsAppIcon className="w-6 h-6 fill-white relative z-10" />
-          </button>
-        </div>
       </div>
 
       {/* ── Chat Window ── */}

@@ -1,57 +1,61 @@
-"use client";
+'use client';
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export function LoadingScreen() {
-  const [loading, setLoading] = useState(true);
+export default function LoadingScreen() {
+  const [progress, setProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
+    const duration = 2000;
+    const interval = 20;
+    const steps = duration / interval;
+    let currentStep = 0;
+
+    const timer = setInterval(() => {
+      currentStep++;
+      setProgress(Math.min(100, Math.floor((currentStep / steps) * 100)));
+
+      if (currentStep >= steps) {
+        clearInterval(timer);
+        setTimeout(() => setIsLoading(false), 400);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <AnimatePresence>
-      {loading && (
+      {isLoading && (
         <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center gap-8"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background text-foreground"
+          exit={{ y: '-100%' }}
+          transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
-          <div className="relative">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-8 rounded-full border-t-2 border-primary shadow-[0_0_20px_rgba(26,115,232,0.3)] opacity-50"
-            />
-            <div className="relative flex items-center justify-center">
-              <img 
-                src="/images/logo.png" 
-                alt="Aban Technologies Logo" 
-                className="h-[80px] md:h-[100px] lg:h-[120px] w-auto object-contain"
-              />
+          <div className="relative flex flex-col items-center">
+            {/* Minimal loader */}
+            <div className="text-8xl md:text-9xl font-headline font-bold tracking-tighter mb-4 text-gradient">
+              {progress}%
             </div>
-          </div>
-          
-          <div className="space-y-2 text-center">
-            <motion.h2
-              animate={{ opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="text-sm font-bold uppercase tracking-[0.5em] text-primary"
+            
+            <motion.div 
+              className="text-sm font-code tracking-widest text-muted-foreground uppercase"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
             >
               Aban Technologies
-            </motion.h2>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Initialising Secure Core...</p>
-          </div>
+            </motion.div>
 
-          <div className="w-48 h-[2px] bg-secondary rounded-full overflow-hidden">
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: "0%" }}
-              transition={{ duration: 2 }}
-              className="w-full h-full bg-primary"
-            />
+            {/* Progress bar */}
+            <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 w-48 h-[2px] bg-white/10 overflow-hidden">
+              <motion.div
+                className="h-full bg-primary"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
         </motion.div>
       )}

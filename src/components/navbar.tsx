@@ -1,163 +1,130 @@
+'use client';
 
-"use client";
-
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useTheme } from '@/components/theme-provider';
-import { Button } from '@/components/ui/button';
-import { 
-  Monitor, 
-  Layers, 
-  Terminal, 
-  ChevronRight,
-  Menu,
-  X
-} from 'lucide-react';
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import MagneticButton from './magnetic-button';
 
-export function Navbar() {
-  const { theme, setTheme } = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const pathname = usePathname();
+const navLinks = [
+  { name: 'Ecosystem', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Services', href: '/services' },
+  { name: 'Portfolio', href: '/portfolio' },
+  { name: 'Testimonials', href: '/testimonials' },
+];
 
-  const themeIcons = {
-    cyber: <Monitor className="w-4 h-4" />,
-    arctic: <Layers className="w-4 h-4" />,
-    matrix: <Terminal className="w-4 h-4" />,
-  };
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const themeLabels = {
-    cyber: 'Cyber Blue',
-    arctic: 'Clean White',
-    matrix: 'Matrix Green',
-  };
-
-  const navLinks = [
-    { name: 'Ecosystem', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Services', href: '/services' },
-    { name: 'Portfolio', href: '/portfolio' },
-    { name: 'Testimonials', href: '/testimonials' },
-    { name: 'Contact', href: '/contact' },
-  ];
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-28">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2">
-              <img 
-                src="/images/logo.png" 
-                alt="Aban Technologies Logo" 
-                className="h-[64px] md:h-[80px] lg:h-[96px] w-auto object-contain"
-              />
-            </Link>
-          </div>
-
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={cn(
-                  "text-sm font-medium transition-colors",
-                  pathname === link.href ? "text-primary" : "hover:text-primary text-muted-foreground"
-                )}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-
-          <div className="hidden md:flex items-center gap-4">
-            <div className="flex p-1 bg-secondary rounded-full border border-border">
-              {(['cyber', 'arctic', 'matrix'] as const).map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTheme(t)}
-                  className={cn(
-                    "p-2 rounded-full transition-all",
-                    theme === t ? "bg-primary text-primary-foreground shadow-lg" : "text-muted-foreground hover:text-foreground"
-                  )}
-                  title={`Switch to ${themeLabels[t]}`}
-                >
-                  {themeIcons[t]}
-                </button>
-              ))}
+    <>
+      <header
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+          scrolled ? 'py-4 glass border-b-0' : 'py-6 bg-transparent'
+        }`}
+      >
+        <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
+          <Link href="/" className="relative z-50 flex items-center gap-3">
+            <div className="w-8 h-8 relative">
+              <Image src="/images/logo.png" alt="AbanTechnologies" fill className="object-contain" />
             </div>
-            <Button size="sm" className="font-headline group" asChild>
-              <Link href="/contact">
-                Start Project
-                <ChevronRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
+            <span className="font-headline font-bold text-lg tracking-tight block">
+              Aban<span className="text-primary">Technologies</span>
+            </span>
+          </Link>
+
+          {/* Desktop minimal nav */}
+          <div className="hidden md:flex items-center gap-8">
+            <MagneticButton href="/contact" className="px-6 py-2 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-colors">
+              Initialize
+            </MagneticButton>
+            <button
+              onClick={() => setIsOpen(true)}
+              className="flex flex-col gap-1.5 p-2"
+              aria-label="Open Menu"
+            >
+              <div className="w-6 h-[2px] bg-white rounded-full" />
+              <div className="w-6 h-[2px] bg-white rounded-full w-4 ml-auto" />
+            </button>
           </div>
 
-          <div className="md:hidden flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? <X /> : <Menu />}
-            </Button>
+          {/* Mobile minimal nav */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(true)}
+              className="flex flex-col gap-1.5 p-2 z-50 relative"
+              aria-label="Open Menu"
+            >
+              <div className="w-6 h-[2px] bg-white rounded-full" />
+              <div className="w-6 h-[2px] bg-white rounded-full w-4 ml-auto" />
+            </button>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-b border-border/50 bg-background/95 backdrop-blur-lg animate-in slide-in-from-top-2 duration-200">
-          <div className="px-4 py-6 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn(
-                  "flex items-center justify-between py-3 px-4 rounded-xl text-base font-headline font-semibold transition-all duration-200",
-                  pathname === link.href
-                    ? "text-primary bg-primary/10 border border-primary/20"
-                    : "text-foreground hover:text-primary hover:bg-primary/5"
-                )}
+      {/* Fullscreen Menu Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-2xl flex flex-col justify-center"
+            initial={{ clipPath: 'inset(0 0 100% 0)' }}
+            animate={{ clipPath: 'inset(0 0 0% 0)' }}
+            exit={{ clipPath: 'inset(100% 0 0% 0)' }}
+            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+          >
+            {/* Close Button */}
+            <div className="absolute top-6 right-6 md:top-8 md:right-12">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-white text-sm font-code uppercase tracking-widest hover:text-primary transition-colors p-4"
               >
-                {link.name}
-                {pathname === link.href && (
-                  <span className="w-2 h-2 rounded-full bg-primary"></span>
-                )}
-              </Link>
-            ))}
-            <div className="pt-3 border-t border-border/50 mt-3">
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-primary text-primary-foreground font-headline font-semibold text-base hover:bg-primary/90 transition-colors"
-              >
-                Start Project
-                <ChevronRight className="w-4 h-4" />
-              </Link>
+                [ Close ]
+              </button>
             </div>
-            <div className="flex justify-between items-center py-3 px-4 border-t border-border/50 mt-2">
-              <span className="text-sm font-medium text-muted-foreground">Theme</span>
-              <div className="flex gap-2">
-                {(['cyber', 'arctic', 'matrix'] as const).map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setTheme(t)}
-                    className={cn(
-                      "p-2.5 rounded-xl border transition-all duration-200",
-                      theme === t
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-secondary border-border hover:border-primary/30"
-                    )}
-                    title={`Switch to ${themeLabels[t]}`}
-                  >
-                    {themeIcons[t]}
-                  </button>
+
+            <div className="container mx-auto px-6 md:px-12">
+              <nav className="flex flex-col gap-4 md:gap-6">
+                {navLinks.map((link, i) => (
+                  <div key={link.name} className="overflow-hidden">
+                    <motion.div
+                      initial={{ y: '100%' }}
+                      animate={{ y: 0 }}
+                      exit={{ y: '100%' }}
+                      transition={{ duration: 0.5, delay: i * 0.1 + 0.3, ease: [0.33, 1, 0.68, 1] }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="text-5xl md:text-8xl font-headline font-bold text-white/50 hover:text-white transition-colors block"
+                      >
+                        {link.name}
+                      </Link>
+                    </motion.div>
+                  </div>
                 ))}
-              </div>
+              </nav>
+
+              <motion.div 
+                className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between text-muted-foreground font-code text-sm gap-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+              >
+                <div>abantechnologies1@gmail.com</div>
+                <div>Kampala, Uganda</div>
+              </motion.div>
             </div>
-          </div>
-        </div>
-      )}
-    </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
