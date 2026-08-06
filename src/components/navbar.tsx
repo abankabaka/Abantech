@@ -32,7 +32,7 @@ export default function Navbar() {
         }`}
       >
         <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-          <Link href="/" className="relative z-50 flex items-center gap-3">
+          <Link href="/" className="relative z-50 flex items-center gap-3 shrink-0">
             <div className="w-8 h-8 relative">
               <Image src="/images/logo.png" alt="AbanTechnologies" fill className="object-contain" />
             </div>
@@ -40,6 +40,23 @@ export default function Navbar() {
               Aban<span className="text-primary">Technologies</span>
             </span>
           </Link>
+
+          {/* Mobile Easter Egg Animation (Motorcar) */}
+          <div className="flex-1 md:hidden h-8 mx-2 relative overflow-hidden flex items-center pointer-events-none">
+            <motion.div
+              initial={{ left: '-20%' }}
+              animate={{ left: '120%' }}
+              transition={{
+                duration: 3,
+                ease: 'linear',
+                repeat: Infinity,
+                repeatDelay: 7
+              }}
+              className="absolute text-xl drop-shadow-lg"
+            >
+              🏎️
+            </motion.div>
+          </div>
 
           {/* Desktop minimal nav */}
           <div className="hidden md:flex items-center gap-8">
