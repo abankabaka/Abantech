@@ -51,8 +51,12 @@ export default function HorizontalScroll() {
           <div className="w-2 md:w-0 shrink-0" />
           
           {projects.map((project, i) => (
-            <div 
-              key={i} 
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setSelectedProject(project)}
               className="group relative w-[85vw] md:w-[60vw] lg:w-[45vw] h-[55vh] md:h-[60vh] rounded-2xl overflow-hidden shrink-0 cursor-pointer border border-white/10 snap-center"
             >
@@ -83,7 +87,7 @@ export default function HorizontalScroll() {
               <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-primary text-black rounded-full items-center justify-center font-bold uppercase tracking-widest opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 z-20 pointer-events-none">
                 Explore
               </div>
-            </div>
+            </motion.div>
           ))}
           
           <div className="w-[10vw] shrink-0" />
