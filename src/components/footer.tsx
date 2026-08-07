@@ -29,7 +29,7 @@ export default function Footer() {
 
         {/* Design Vault Feature Banner */}
         <a
-          href="https://design-vault.vercel.app"
+          href="https://aban-technologies-design-vault.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-between mb-32 p-6 md:p-8 rounded-2xl border border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/40 transition-all duration-500 group"
@@ -77,7 +77,7 @@ export default function Footer() {
                 </Link>
               ))}
               <a
-                href="https://design-vault.vercel.app"
+                href="https://aban-technologies-design-vault.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-lg text-primary hover:text-white transition-colors hover:translate-x-2 duration-300 transform inline-flex items-center gap-2 w-fit group"
