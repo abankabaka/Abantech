@@ -5,6 +5,8 @@ import SmoothScroll from '@/components/smooth-scroll';
 import CustomCursor from '@/components/custom-cursor';
 import { AIArchitect } from '@/components/ai-architect';
 import { ScrollToTop } from '@/components/scroll-to-top';
+import RainEffect from '@/components/rain-effect';
+import SmokeEffect from '@/components/smoke-effect';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -52,6 +54,8 @@ export default function RootLayout({
       <body className="font-body noise-overlay">
         <SmoothScroll>
           <CustomCursor />
+          <SmokeEffect />
+          <RainEffect />
           {children}
           <AIArchitect />
           <ScrollToTop />

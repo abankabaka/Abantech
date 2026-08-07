@@ -4,7 +4,6 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { TextReveal, FadeUp } from './text-reveal';
 import MagneticButton from './magnetic-button';
-import RainEffect from './rain-effect';
 
 export default function Hero() {
   const container = useRef(null);
@@ -20,8 +19,6 @@ export default function Hero() {
     <section ref={container} className="relative min-h-screen flex flex-col justify-center section-padding overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
-      
-      <RainEffect />
 
       <motion.div style={{ y, opacity }} className="relative z-10 max-w-[90vw]">
         
