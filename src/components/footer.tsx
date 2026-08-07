@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto relative z-10 overflow-hidden">
         
         {/* Massive CTA Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-32 gap-12 text-center md:text-left">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-12 text-center md:text-left">
           <h2 className="text-[12vw] md:text-[8vw] leading-[0.8] font-headline font-bold tracking-tighter">
             <TextReveal>Let's Work</TextReveal><br />
             <TextReveal delay={0.1} className="text-white/50">Together.</TextReveal>
@@ -26,6 +26,26 @@ export default function Footer() {
             </div>
           </MagneticButton>
         </div>
+
+        {/* Design Vault Feature Banner */}
+        <a
+          href="https://design-vault.vercel.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-between mb-32 p-6 md:p-8 rounded-2xl border border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/40 transition-all duration-500 group"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center">
+              <span className="text-primary text-lg">✦</span>
+            </div>
+            <div>
+              <p className="font-code text-xs uppercase tracking-widest text-primary mb-1">Creative Portfolio</p>
+              <h3 className="font-headline text-xl md:text-2xl font-bold">Visit the Design Vault</h3>
+              <p className="text-muted-foreground text-sm mt-1">Explore our graphic designs, brand identities & visual work</p>
+            </div>
+          </div>
+          <div className="text-primary text-3xl group-hover:translate-x-2 transition-transform duration-300">→</div>
+        </a>
 
         {/* Links & Newsletter Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
@@ -56,6 +76,15 @@ export default function Footer() {
                   {link}
                 </Link>
               ))}
+              <a
+                href="https://design-vault.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg text-primary hover:text-white transition-colors hover:translate-x-2 duration-300 transform inline-flex items-center gap-2 w-fit group"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                Design Vault ↗
+              </a>
             </div>
           </FadeInLeft>
 
