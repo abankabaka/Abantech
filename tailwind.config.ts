@@ -98,6 +98,16 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
         },
+        rain: {
+          "0%": { transform: "translateY(0vh)", opacity: "0" },
+          "50%": { opacity: "1" },
+          "100%": { transform: "translateY(120vh)", opacity: "0" },
+        },
+        smoke: {
+          "0%": { transform: "translateY(0vh) scale(1)", opacity: "0" },
+          "50%": { opacity: "0.5" },
+          "100%": { transform: "translateY(-120vh) scale(2)", opacity: "0" },
+        }
       },
       animation: {
         marquee: "marquee 30s linear infinite",
@@ -110,6 +120,8 @@ export default {
         "scroll-down": "scroll-down 2s ease-in-out infinite",
         shimmer: "shimmer 2s linear infinite",
         pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        rain: "rain 2s linear infinite",
+        smoke: "smoke 15s linear infinite",
       },
     },
   },
