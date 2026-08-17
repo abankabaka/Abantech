@@ -39,8 +39,11 @@ export default function DashboardPage() {
         setMessages(data.messages);
         setSubscribers(data.subscribers);
         setIsAuthenticated(true);
-      } else {
+      } else if (res.status === 401) {
         setError("Invalid password. Access denied.");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(`Server error (${res.status}): ${data.error || 'Unknown error'}`);
       }
     } catch (err) {
       setError("Failed to connect to the server.");

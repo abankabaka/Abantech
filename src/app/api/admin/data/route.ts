@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+
+// Use Firebase Admin SDK for server-side access
+import { initializeApp, getApps, cert, App } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
+
+function getAdminApp(): App {
+  if (getApps().length > 0) return getApps()[0];
+  
+  return initializeApp({
+    credential: cert({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    }),
+  });
+}
 
 export async function POST(req: Request) {
   try {
@@ -10,21 +24,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized access." }, { status: 401 });
     }
 
+    const app = getAdminApp();
+    const db = getFirestore(app);
+
     // Fetch messages
-    const messagesRef = collection(db, "messages");
-    const messagesQuery = query(messagesRef, orderBy("createdAt", "desc"));
-    const messagesSnapshot = await getDocs(messagesQuery);
+    const messagesSnapshot = await db
+      .collection("messages")
+      .orderBy("createdAt", "desc")
+      .get();
     const messages = messagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     // Fetch subscribers
-    const subscribersRef = collection(db, "subscribers");
-    const subscribersQuery = query(subscribersRef, orderBy("createdAt", "desc"));
-    const subscribersSnapshot = await getDocs(subscribersQuery);
+    const subscribersSnapshot = await db
+      .collection("subscribers")
+      .orderBy("createdAt", "desc")
+      .get();
     const subscribers = subscribersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     return NextResponse.json({ messages, subscribers });
-  } catch (error) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to fetch data.";
     console.error("Admin API Error:", error);
-    return NextResponse.json({ error: "Failed to fetch data." }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
