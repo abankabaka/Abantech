@@ -75,11 +75,11 @@ function MessageBubble({ msg }: { msg: Message }) {
         "w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mb-0.5",
         isUser
           ? "bg-primary/20 border border-primary/30"
-          : "bg-blue-500/20 border border-blue-500/30"
+          : "bg-orange-500/20 border border-orange-500/30"
       )}>
         {isUser
           ? <User className="w-3.5 h-3.5 text-primary" />
-          : <SparkIcon className="w-3.5 h-3.5 text-blue-400" />
+          : <SparkIcon className="w-3.5 h-3.5 text-orange-400" />
         }
       </div>
 
@@ -101,13 +101,13 @@ function MessageBubble({ msg }: { msg: Message }) {
 function TypingIndicator() {
   return (
     <div className="flex gap-2.5 items-end">
-      <div className="w-7 h-7 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shrink-0">
-        <SparkIcon className="w-3.5 h-3.5 text-blue-400" />
+      <div className="w-7 h-7 rounded-lg bg-orange-500/20 border border-orange-500/30 flex items-center justify-center shrink-0">
+        <SparkIcon className="w-3.5 h-3.5 text-orange-400" />
       </div>
       <div className="bg-secondary/70 border border-white/5 px-4 py-3 rounded-2xl rounded-bl-sm flex gap-1.5 items-center">
-        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce [animation-delay:0ms]" />
-        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce [animation-delay:150ms]" />
-        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce [animation-delay:300ms]" />
+        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-bounce [animation-delay:0ms]" />
+        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-bounce [animation-delay:150ms]" />
+        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-bounce [animation-delay:300ms]" />
       </div>
     </div>
   );
@@ -197,25 +197,25 @@ export function AIArchitect() {
         {/* AI Chatbot Button */}
         <button
           onClick={() => { setIsOpen(!isOpen); setIsWhatsAppOpen(false); }}
-          className="w-14 h-14 rounded-full glass-morphism flex items-center justify-center border border-white/10 hover:border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.15)] hover:shadow-[0_0_25px_rgba(59,130,246,0.35)] transition-all duration-300 relative group"
+          className="w-14 h-14 rounded-full glass-morphism flex items-center justify-center border border-white/10 hover:border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.15)] hover:shadow-[0_0_25px_rgba(249,115,22,0.35)] transition-all duration-300 relative group"
           title="Chat with Aban AI"
           aria-label="Open AI Assistant"
         >
-          <SparkIcon className="w-6 h-6 text-blue-400" />
+          <SparkIcon className="w-6 h-6 text-orange-400" />
           {/* Online indicator */}
-          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-blue-500 rounded-full border-2 border-background z-20 animate-pulse" />
+          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-orange-500 rounded-full border-2 border-background z-20 animate-pulse" />
         </button>
       </div>
 
       {/* ── Chat Window ── */}
       {isOpen && (
-        <Card className="fixed z-[100] w-[calc(100vw-32px)] sm:w-[420px] h-[75vh] sm:h-[620px] bottom-36 sm:bottom-8 right-4 sm:right-28 glass-morphism shadow-2xl border-blue-500/20 flex flex-col animate-in slide-in-from-bottom-4 duration-300 overflow-hidden">
+        <Card className="fixed z-[100] w-[calc(100vw-32px)] sm:w-[420px] h-[75vh] sm:h-[620px] bottom-36 sm:bottom-8 right-4 sm:right-28 glass-morphism shadow-2xl border-orange-500/20 flex flex-col animate-in slide-in-from-bottom-4 duration-300 overflow-hidden">
 
           {/* Header */}
-          <CardHeader className="border-b border-border/50 p-4 bg-gradient-to-r from-blue-500/10 to-primary/5 flex flex-row items-center justify-between shrink-0">
+          <CardHeader className="border-b border-border/50 p-4 bg-gradient-to-r from-orange-500/10 to-primary/5 flex flex-row items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center relative">
-                <SparkIcon className="w-4 h-4 text-blue-400" />
+              <div className="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center relative">
+                <SparkIcon className="w-4 h-4 text-orange-400" />
                 <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border border-background" />
               </div>
               <div>
@@ -264,7 +264,7 @@ export function AIArchitect() {
                     <button
                       key={prompt}
                       onClick={() => sendMessage(prompt)}
-                      className="text-left text-xs px-3.5 py-2.5 rounded-xl bg-secondary/40 border border-white/5 hover:border-blue-500/30 hover:bg-secondary/60 text-muted-foreground hover:text-foreground transition-all duration-200"
+                      className="text-left text-xs px-3.5 py-2.5 rounded-xl bg-secondary/40 border border-white/5 hover:border-orange-500/30 hover:bg-secondary/60 text-muted-foreground hover:text-foreground transition-all duration-200"
                     >
                       {prompt}
                     </button>
@@ -291,7 +291,7 @@ export function AIArchitect() {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask anything about AbanTechnologies..."
                 disabled={isLoading}
-                className="flex-1 bg-secondary/50 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all disabled:opacity-50 min-w-0"
+                className="flex-1 bg-secondary/50 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 transition-all disabled:opacity-50 min-w-0"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -303,7 +303,7 @@ export function AIArchitect() {
                 type="submit"
                 size="icon"
                 disabled={isLoading || !input.trim()}
-                className="w-10 h-10 rounded-xl bg-blue-500 hover:bg-blue-600 text-white shrink-0 shadow-[0_0_10px_rgba(59,130,246,0.3)] disabled:opacity-40 disabled:shadow-none transition-all"
+                className="w-10 h-10 rounded-xl bg-orange-500 hover:bg-orange-600 text-white shrink-0 shadow-[0_0_10px_rgba(249,115,22,0.3)] disabled:opacity-40 disabled:shadow-none transition-all"
               >
                 {isLoading
                   ? <Loader2 className="w-4 h-4 animate-spin" />
