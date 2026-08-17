@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   try {
     const { password } = await req.json();
 
-    if (!password || password !== process.env.ADMIN_PASSWORD) {
+    if (!password || password.trim() !== (process.env.ADMIN_PASSWORD || "").trim()) {
       return NextResponse.json({ error: "Unauthorized access." }, { status: 401 });
     }
 
